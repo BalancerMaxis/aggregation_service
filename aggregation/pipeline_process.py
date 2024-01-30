@@ -15,11 +15,11 @@ def process_payloads(week: str) -> None:
     # TODO: First: validate each file to comply with the schema
     # Find all CSV files in inputs/week directory:
     transactions = {}
-    for file in os.listdir(f"inputs/{week}"):
+    for file in os.listdir(f"aggregation/inputs/{week}"):
         if not file.endswith(".csv"):
             continue
 
-        with open(f"inputs/{week}/{file}") as f:
+        with open(f"aggregation/inputs/{week}/{file}") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 key = (Web3.to_checksum_address(row['target']), row['platform'])
@@ -34,8 +34,8 @@ def process_payloads(week: str) -> None:
                         amount=amount
                     )
     # Now save transactions into outputs/week directory in CSV format
-    os.makedirs(f"outputs/{week}", exist_ok=True)
-    with open(f"outputs/{week}/{week}.csv", "w") as f:
+    os.makedirs(f"aggregation/outputs/{week}", exist_ok=True)
+    with open(f"aggregation/outputs/{week}/{week}.csv", "w") as f:
         writer = csv.DictWriter(f, fieldnames=["target", "platform", "amount"])
         writer.writeheader()
         for transaction in transactions.values():
@@ -44,7 +44,3 @@ def process_payloads(week: str) -> None:
                 "platform": transaction.platform,
                 "amount": transaction.amount
             })
-
-
-if __name__ == "__main__":
-    process_payloads(week="W4269")
