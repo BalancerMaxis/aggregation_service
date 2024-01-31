@@ -9,3 +9,4 @@ Those CSVs are coming from the Fee allocator, balancer bribe recycler etc
 - Place CSV files under `./input/<WEEK>` folder
 - Run `main.py` with week number as argument
 - Collect output CSV from `./output/<WEEK>` folder
+- Collect transaction JSON from `./transactions/<WEEK>` folder
